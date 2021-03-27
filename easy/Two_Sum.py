@@ -31,14 +31,53 @@ class Solution(object):
         :type target: int
         :rtype: List[int]
         """
-        N = len(nums)
-        for i in range(N-1):
-            for j in range(i+1, N):
-                if nums[i] + nums[j] == target:
-                    return [i, j]
+        # 0.04626986499999999
+        # N = len(nums)
+        # for i in range(N-1):
+        #     for j in range(i+1, N):
+        #         if nums[i] + nums[j] == target:
+        #             return [i, j]
+
+        # code refactoring 01: two-pass hash table
+        # 0.03888810150000001
+        # table = {nums[i]: i for i in range(len(nums))}
+        # for i in range(len(nums)):
+        #     k = target-nums[i]
+        #     if k in table and table[k] != i:
+        #         return [i, table[target-nums[i]]]
+
+        # code refactoring 02: one-pass hash table
+        # 0.027280625500000003
+        # table = dict()
+        # for i in range(len(nums)):
+        #     k = target-nums[i]
+        #     if k in table:
+        #         return [i, table[k]]
+        #     table[nums[i]] = i
+
+        # code refactoring 02-1: one-pass hash table
+        # 0.024079324
+        table = dict()
+        for i, n in enumerate(nums):
+            k = target-n
+            if k in table:
+                return [i, table[k]]
+            table[n] = i
 
 
 s = Solution()
 print(s.twoSum([2, 7, 11, 15], 9))
 print(s.twoSum([3, 2, 4], 6))
 print(s.twoSum([3, 3], 6))
+print(s.twoSum([-3, -4, -5, -6, -2, -1, 3, 2, 3], 6))
+
+
+import timeit
+avg_time = 0.
+tests = [[[2, 7, 11, 15], 9],
+         [[3, 2, 4], 6],
+         [[3, 3], 6],
+         [[-3, -4, -5, -6, -2, -1, 3, 2, 3], 6]]
+for t in tests:
+    avg_time += timeit.timeit(lambda: s.twoSum(*t), number=10000)
+print(f'avg_time: {avg_time / len(t)}')
