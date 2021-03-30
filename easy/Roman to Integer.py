@@ -58,24 +58,56 @@ class Solution(object):
         :type s: str
         :rtype: int
         """
+        # 0.013750259799999998
+        # table = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
+        # N = len(s)
+        # idx = 0
+        # answer = 0
+        # while N-1 > idx:
+        #     if table[s[idx]] < table[s[idx+1]]:
+        #         answer += table[s[idx+1]] - table[s[idx]]
+        #         idx += 2
+        #     else:
+        #         answer += table[s[idx]]
+        #         idx += 1
+        # return answer + table[s[-1]] if N > idx else answer
+
+        # code refactoring - 0.0168344708
+        # 매번 비교해야해서 원래 풀이보다 더 느림
+        # MCMXC가 있으면, CM비교하고 {MX를 또 비교해서 값을 더하는 불필요 단계 추가}
+        # table = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
+        # answer = table[s[-1]]
+        # for i in range(len(s)-1):
+        #     if table[s[i]] < table[s[i+1]]:
+        #         answer -= table[s[i]]
+        #     else:
+        #         answer += table[s[i]]
+        # return answer
+
+        # code refactoring 02 - 0.0111070206
         table = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
-        N = len(s)
-        idx = 0
-        answer = 0
-        while N-1 > idx:
-            # print(f"N: {N}, idx: {idx},  s[{idx}]: {s[idx]}, s[{idx+1}]: {s[idx+1]}")
-            if table[s[idx]] < table[s[idx+1]]:
-                answer += table[s[idx+1]] - table[s[idx]]
-                idx += 2
-            else:
-                answer += table[s[idx]]
-                idx += 1
-        return answer + table[s[-1]] if N > idx else answer
+        ans, p = 0, 'I'
+        for c in s[::-1]:
+            print(f"c: {c}")
+            ans, p = ans - table[c] if table[c] < table[p] else ans + table[c], c
+        return ans
 
 
 s = Solution()
-print(s.romanToInt("III"))
+# print(s.romanToInt("III"))
 print(s.romanToInt("IV"))
-print(s.romanToInt("IX"))
-print(s.romanToInt("LVIII"))
-print(s.romanToInt("MCMXCIV"))
+# print(s.romanToInt("IX"))
+# print(s.romanToInt("LVIII"))
+# print(s.romanToInt("MCMXCIV"))
+
+
+# import timeit
+# avg_time = 0.
+# tests = ["III",
+#          "IV",
+#          "IX",
+#          "LVIII",
+#          "MCMXCIV"]
+# for t in tests:
+#     avg_time += timeit.timeit(lambda: s.romanToInt(t), number=10000)
+# print(f'avg_time: {avg_time / len(tests)}')
