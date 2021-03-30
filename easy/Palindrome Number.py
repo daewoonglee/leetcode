@@ -38,6 +38,7 @@ class Solution(object):
         :rtype: bool
         """
         # using str version
+        # 0.008774425499999999
         # x = str(x)
         # N = len(x)
         # if N % 2 == 0:
@@ -46,17 +47,29 @@ class Solution(object):
         #     return True if x[:N//2] == x[N//2+1:][::-1] else False
 
         # without converting int to str
-        if x < 0:
+        # 0.01108046475
+        # if x < 0:
+        #     return False
+        # li = []
+        # while x != 0:
+        #     x, r = divmod(x, 10)
+        #     li.append(r)
+        # N = len(li)
+        # if N % 2 == 0:
+        #     return True if li[:N//2] == li[N//2:][::-1] else False
+        # else:
+        #     return True if li[:N//2] == li[N//2+1:][::-1] else False
+
+        # code refactoring
+        # 0.0057432872500000004
+        if x < 0 or x % 10 == 0 and x != 0:
             return False
-        li = []
-        while x != 0:
+        num = 0
+        while x > num:
             x, r = divmod(x, 10)
-            li.append(r)
-        N = len(li)
-        if N % 2 == 0:
-            return True if li[:N//2] == li[N//2:][::-1] else False
-        else:
-            return True if li[:N//2] == li[N//2+1:][::-1] else False
+            num = num * 10 + r
+        return True if x == num or x == num//10 else False
+
 
 s = Solution()
 print(s.isPalindrome(121))
@@ -66,3 +79,19 @@ print(s.isPalindrome(-101))
 print(s.isPalindrome(1001))
 print(s.isPalindrome(10001))
 print(s.isPalindrome(1000021))
+print(s.isPalindrome(0))
+
+
+import timeit
+avg_time = 0.
+tests = [121,
+         -121,
+         10,
+         -101,
+         1001,
+         10001,
+         1000021,
+         0]
+for t in tests:
+    avg_time += timeit.timeit(lambda: s.isPalindrome(t), number=10000)
+print(f'avg_time: {avg_time / len(tests)}')
