@@ -58,6 +58,7 @@ class Solution(object):
             if nums[i] != nums[i+1]:
                 nums[ans] = nums[i+1]
                 ans += 1
+        del nums[ans:]
         return ans
 
 
