@@ -53,20 +53,30 @@ class Solution(object):
 
         # Solution 02 - assign
         # running time: 4.615130591000001
-        idx = -1
-        for i in range(len(nums)):
-            if val == nums[i]:
-                idx = i
-                break
-        if idx == -1:
-            return len(nums)
+        # idx = -1
+        # for i in range(len(nums)):
+        #     if val == nums[i]:
+        #         idx = i
+        #         break
+        # if idx == -1:
+        #     return len(nums)
+        #
+        # cur_idx = idx
+        # for i in range(idx+1, len(nums)):
+        #     if nums[i] != val:
+        #         nums[cur_idx] = nums[i]
+        #         cur_idx += 1
+        # del nums[cur_idx:]
+        # return len(nums)
 
-        cur_idx = idx
-        for i in range(idx+1, len(nums)):
-            if nums[i] != val:
-                nums[cur_idx] = nums[i]
-                cur_idx += 1
-        del nums[cur_idx:]
+        # code refactoring
+        # running time: 2.562772297
+        count = 0
+        for i in nums:
+            if i != val:
+                nums[count] = i
+                count += 1
+        del nums[count:]
         return len(nums)
 
 
