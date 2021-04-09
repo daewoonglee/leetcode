@@ -37,16 +37,43 @@ class Solution(object):
         :type target: int
         :rtype: int
         """
-        for i in range(len(nums)):
-            if nums[i] == target or nums[i] > target:
-                return i
-        return len(nums)
+        # 3.958087464
+        # for i in range(len(nums)):
+        #     if nums[i] >= target or nums[i] > target:
+        #         return i
+        # return len(nums)
+
+        # code refactoring 01 - 3.5671307729999997
+        # for i in range(len(nums)):
+        #     if nums[i] >= target:
+        #         return i
+        # return len(nums)
+
+        # code refactoring 02 - 3.66879623
+        l = 0
+        r = len(nums)
+        while l < r:
+            pivot = (r - l) // 2 + l
+            if nums[pivot] == target:
+                return pivot
+            elif nums[pivot] < target:
+                l = pivot+1
+            else:
+                r = pivot
+        return l
 
 
 s = Solution()
 # print(s.searchInsert([1, 3, 5, 6], 5))    # 2
 # print(s.searchInsert([1, 3, 5, 6], 2))    # 1
-print(s.searchInsert([1, 3, 5, 6], 7))    # 4
+# print(s.searchInsert([1, 3, 5, 6], 7))    # 4
 # print(s.searchInsert([1, 3, 5, 6], 0))    # 0
 # print(s.searchInsert([1], 0))             # 0
+print(s.searchInsert([1, 3], 2))          # 1
 
+
+if __name__ == '__main__':
+    from timeit import Timer
+    t = Timer("for t in [[[1, 3, 5, 6], 5], [[1, 3, 5, 6], 2], [[1, 3, 5, 6], 7], [[1, 3, 5, 6], 0], [[1], 0]]: Solution().searchInsert(*t)",
+              "from __main__ import Solution")
+    print(t.timeit())
