@@ -28,26 +28,21 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        N = len(nums)
-        ans = nums[0]
-        for i in range(N):
-            n = nums[i]
-            if ans < n:
-                ans = n
-            for j in range(i+1, N, 1):
-                n += nums[j]
-                if ans < n:
-                    ans = n
-        return ans
+        # Kadane Algorithm (Dynamic Programming) - 9.413275131
+        K = [nums[0]]
+        for i in range(1, len(nums)):
+            K.append(max(K[i-1]+nums[i], nums[i]))
+        return max(K)
+
 
 
 s = Solution()
 print(s.maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]))   # 6
-# print(s.maxSubArray([1]))                               # 1
-# print(s.maxSubArray([5, 4, -1, 7, 8]))                  # 23
-# print(s.maxSubArray([-1, -1, -1, -1, 1]))               # 1
+print(s.maxSubArray([1]))                               # 1
+print(s.maxSubArray([5, 4, -1, 7, 8]))                  # 23
+print(s.maxSubArray([-1, -1, -1, -1, 1]))               # 1
 print(s.maxSubArray([-1]))                              # -1
-# print(s.maxSubArray([-1, 0, -2]))                       # 0
+print(s.maxSubArray([-1, 0, -2]))                       # 0
 
 
 if __name__ == '__main__':
