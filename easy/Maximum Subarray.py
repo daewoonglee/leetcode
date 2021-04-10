@@ -29,11 +29,16 @@ class Solution(object):
         :rtype: int
         """
         # Kadane Algorithm (Dynamic Programming) - 9.413275131
-        K = [nums[0]]
-        for i in range(1, len(nums)):
-            K.append(max(K[i-1]+nums[i], nums[i]))
-        return max(K)
+        # K = [nums[0]]
+        # for i in range(1, len(nums)):
+        #     K.append(max(K[i-1]+nums[i], nums[i]))
+        # return max(K)
 
+        # code refactoring - 5.707123569999999
+        for i in range(1, len(nums)):
+            if nums[i-1] > 0:
+                nums[i] += nums[i-1]
+        return max(nums)
 
 
 s = Solution()
