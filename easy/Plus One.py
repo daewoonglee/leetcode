@@ -29,16 +29,40 @@ class Solution(object):
         :type digits: List[int]
         :rtype: List[int]
         """
-        # 0.093911664
-        return list(str(int("".join(map(str, digits)))+1))
+        # 0.0953646
+        # return list(str(int("".join(map(str, digits)))+1))
+
+        # code refactoring 01 - 0.030296527000000004
+        # idx = len(digits)-1
+        # while idx >= 0:
+        #     if digits[idx] < 9:
+        #         digits[idx] += 1
+        #         return digits
+        #     else:
+        #         digits[idx] = 0
+        #         idx -= 1
+        # if digits[0] == 0:
+        #     # digits.insert(0, 1)
+        #     digits = [1] + digits
+        # return digits
+
+        # code refactoring 02 - 0.130047577
+        d = 0
+        N = len(digits)-1
+        for i, n in enumerate(digits):
+            d += (n * 10**(N-i))
+        d += 1
+        return [int(num) for num in str(d)]
 
 
 s = Solution()
-print(s.plusOne([1, 2, 3]))
-print(s.plusOne([4, 3, 2, 1]))
-print(s.plusOne([0]))
-print(s.plusOne([9]))
-print(s.plusOne([9, 9])) # [1, 0, 0]
+# print(s.plusOne([1, 2, 3]))
+# print(s.plusOne([4, 3, 2, 1]))
+# print(s.plusOne([0]))
+# print(s.plusOne([9]))
+# print(s.plusOne([9, 9])) # [1, 0, 0]
+print(s.plusOne([9, 9, 0, 9])) # [1, 0, 0]
+print(s.plusOne([9, 9, 9, 9])) # [1, 0, 0]
 
 
 if __name__ == '__main__':
