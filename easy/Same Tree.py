@@ -28,11 +28,17 @@ class Solution(object):
             self.print_tree(pt.right)
 
     def get_bool(self, p, q):
+        # 0.30504002399999997
+        # if p and q and p.val == q.val:
+        #     if self.get_bool(p.left, q.left):
+        #         return self.get_bool(p.right, q.right)
+        #     else:
+        #         return False
+        # return True if not p and not q else False
+
+        # code refactoring - 0.290420576
         if p and q and p.val == q.val:
-            if self.get_bool(p.left, q.left):
-                return self.get_bool(p.right, q.right)
-            else:
-                return False
+            return self.get_bool(p.left, q.left) and self.get_bool(p.right, q.right)
         return True if not p and not q else False
 
     def isSameTree(self, p, q):
@@ -50,7 +56,21 @@ class Solution(object):
 
 
 s = Solution()
-# print(s.isSameTree([1, 2, 3], [1, 2, 3]))
-# print(s.isSameTree([1, 2], [1, None, 2]))
-# print(s.isSameTree([1, 2, 1], [1, 1, 2]))
+print(s.isSameTree([1, 2, 3], [1, 2, 3]))
+print(s.isSameTree([1, 2], [1, None, 2]))
+print(s.isSameTree([1, 2, 1], [1, 1, 2]))
 print(s.isSameTree([1, None, 2], [1, 1, 2]))
+print(s.isSameTree([1, 2, 3, 4, 5], [1, 2, 3, 4, 5]))
+print(s.isSameTree([1, 2, 3, 4, 5], [5, 4, 3, 2, 1]))
+
+
+if __name__ == '__main__':
+    from timeit import Timer
+    query = [[[1, 2, 3], [1, 2, 3]],
+             [[1, 2], [1, None, 2]],
+             [[1, 2, 1], [1, 1, 2]],
+             [[1, None, 2], [1, 1, 2]],
+             [[1, 2, 3, 4, 5], [1, 2, 3, 4, 5]],
+             [[1, 2, 3, 4, 5], [5, 4, 3, 2, 1]]]
+    t = Timer(f"for t in {query}: Solution().isSameTree(*t)", "from __main__ import Solution")
+    print(t.timeit(number=10000))
