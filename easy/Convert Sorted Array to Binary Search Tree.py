@@ -78,15 +78,25 @@ class Solution(object):
     #     return root
 
     def insert(self, nums):
-        if len(nums) == 1:
-            return TreeNode(nums[0])
-        elif len(nums) == 0:
+        # 0.11282189000000001
+        # if len(nums) == 1:
+        #     return TreeNode(nums[0])
+        # elif len(nums) == 0:
+        #     return None
+        # else:
+        #     root = TreeNode(nums[len(nums)//2])
+        #     root.left = self.insert(nums[:len(nums)//2])
+        #     root.right = self.insert(nums[len(nums)//2+1:])
+        #     return root
+
+        # code refactoring01 - 0.150501664
+        if len(nums) == 0:
             return None
-        else:
-            root = TreeNode(nums[len(nums)//2])
-            root.left = self.insert(nums[:len(nums)//2])
-            root.right = self.insert(nums[len(nums)//2+1:])
-            return root
+        root = TreeNode(nums[len(nums)//2])
+        root.left = self.insert(nums[:len(nums)//2])
+        root.right = self.insert(nums[len(nums)//2+1:])
+        return root
+
 
     def print_tree(self, root):
         if root:
@@ -99,10 +109,13 @@ class Solution(object):
         :type nums: List[int]
         :rtype: TreeNode
         """
-        root = TreeNode(nums[len(nums)//2])
-        root.left = self.insert(nums[:len(nums)//2])
-        root.right = self.insert(nums[len(nums)//2+1:])
-        self.print_tree(root)
+        # root = TreeNode(nums[len(nums)//2])
+        # root.left = self.insert(nums[:len(nums)//2])
+        # root.right = self.insert(nums[len(nums)//2+1:])
+
+        # code refactoring 02 - 0.155116043
+        root = self.insert(nums)
+        # self.print_tree(root)
         return root
 
 
@@ -110,3 +123,12 @@ s = Solution()
 print(s.sortedArrayToBST([-10, -3, 0, 5, 9]))
 # print(s.sortedArrayToBST([-10, -3, 0]))
 # print(s.sortedArrayToBST([5, 7, 9]))
+
+
+if __name__ == '__main__':
+    from timeit import Timer
+    query = [[-10, -3, 0, 5, 9],
+             [-10, -3, 0],
+             [5, 7, 9]]
+    t = Timer(f"for t in {query}: Solution().sortedArrayToBST(t)", "from __main__ import Solution")
+    print(t.timeit(number=10000))
