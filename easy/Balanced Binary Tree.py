@@ -27,26 +27,31 @@ class Solution(object):
         if root is None:
             return 0
         l = self.get_height(root.left)
+        if l == -1:
+            return -1
         r = self.get_height(root.right)
-        h = max(l, r) + 1
-        return h-1
+        if r == -1:
+            return -1
+        return -1 if abs(l-r) > 1 else max(l, r) + 1
 
     def isBalanced(self, root):
         """
         :type root: TreeNode
         :rtype: bool
         """
-        if not root:
-            return True
+        # if not root:
+        #     return True
         root = self.insert(root)
-        self.print_node(root)
-        l = self.get_height(root.left)
-        r = self.get_height(root.right)
-        return True if abs(l-r) <= 1 else False
+        # self.print_node(root)
+
+
+        return self.get_height(root) != -1
 
 
 s = Solution()
-# print(s.isBalanced([3, 9, 20, None, None, 15, 7]))
-# print(s.isBalanced([1, 2, 2, 3, 3, None, None, 4, 4]))
-# print(s.isBalanced([]))
+print(s.isBalanced([3, 9, 20, None, None, 15, 7]))
+print(s.isBalanced([1, 2, 2, 3, 3, None, None, 4, 4]))
+print(s.isBalanced([]))
+print(s.isBalanced([1]))
 print(s.isBalanced([1, 2, 2, 3, None, None, 3, 4, None, None, 4]))
+print(s.isBalanced([1, 2, 2, 3, None, None, None, 4, None, None, 4]))
