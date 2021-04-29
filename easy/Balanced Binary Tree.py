@@ -34,6 +34,21 @@ class Solution(object):
             return -1
         return -1 if abs(l-r) > 1 else max(l, r) + 1
 
+    def height(self, root, left=0, right=0):
+        if root:
+            if root.left:
+                left = self.height(root.left)
+            if left == -1:
+                return -1
+            if root.right:
+                right = self.height(root.right)
+            if right == -1:
+                return -1
+            if abs(left - right) <= 1:
+                return max(left, right) + 1
+            return -1
+        return 0
+
     def isBalanced(self, root):
         """
         :type root: TreeNode
@@ -44,8 +59,11 @@ class Solution(object):
         root = self.insert(root)
         # self.print_node(root)
 
+        # 0.39347390399962023
+        # return self.get_height(root) != -1
 
-        return self.get_height(root) != -1
+        # code refactoring - 0.32359435299986217
+        return self.height(root) != -1
 
 
 s = Solution()
@@ -55,3 +73,15 @@ print(s.isBalanced([]))
 print(s.isBalanced([1]))
 print(s.isBalanced([1, 2, 2, 3, None, None, 3, 4, None, None, 4]))
 print(s.isBalanced([1, 2, 2, 3, None, None, None, 4, None, None, 4]))
+
+
+if __name__ == '__main__':
+    from timeit import Timer
+    query = [[3, 9, 20, None, None, 15, 7],
+             [1, 2, 2, 3, 3, None, None, 4, 4],
+             [],
+             [1],
+             [1, 2, 2, 3, None, None, 3, 4, None, None, 4],
+             [1, 2, 2, 3, None, None, None, 4, None, None, 4]]
+    t = Timer(f"for t in {query}: Solution().isBalanced(t)", "from __main__ import Solution")
+    print(t.timeit(number=10000))
