@@ -36,20 +36,40 @@ class Solution(object):
         head = self.cycle_list_node(head, pos)
         # self.print_node(head)
 
-        fin = ListNode(-1)
-        while head:
-            pre = head
-            if head.next == fin:
+        # 0.195928443
+        # fin = ListNode(-1)
+        # while head:
+        #     pre = head
+        #     if head.next == fin:
+        #         return True
+        #     head = head.next
+        #     pre.next = fin
+        # return False
+
+        # code refactoring 01 - 0.17435736500000001
+        slow = fast = head
+        while slow and fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            if slow == fast:
                 return True
-            head = head.next
-            pre.next = fin
         return False
-
-
 
 
 s = Solution()
 print(s.hasCycle([3, 2, 0, -4], 1))
 print(s.hasCycle([3], -1))
 print(s.hasCycle([3], 0))
+print(s.hasCycle([1, 1, 1, 1, 1, 1, 1, 1, 1], 0))
 # print(s.hasCycle([], -1))
+
+
+if __name__ == '__main__':
+    from timeit import Timer
+    query = [[[3, 2, 0, -4], 1],
+             [[3], -1],
+             [[3], 0],
+             [[1, 1, 1, 1, 1, 1, 1, 1, 1], 0],
+             [[1, 1, 1, 1, 1, 1, 1, 1, 1], -1]]
+    t = Timer(f"for t in {query}: Solution().hasCycle(*t)", "from __main__ import Solution")
+    print(t.timeit(number=10000))
