@@ -14,20 +14,18 @@ class Solution(object):
         #             return [i+1, j+1]
 
         N = len(numbers)
-        for i in range(N//2+1):
+        for i in range(N-1):
             num = target - numbers[i]
-            L = i
-            pivot = N//2
+            L = i+1
             R = N-1
             while L <= R:
-                print(f"pivot: {pivot}")
+                pivot = (R+L)//2
                 pn = numbers[pivot]
+                print(f"pivot: {pivot}, pn: {pn}")
                 if num < pn:
                     R = pivot-1
-                    pivot = (R+L)//2+1
                 elif num > pn:
                     L = pivot+1
-                    pivot = (R+L)//2
                 else:
                     return [i+1, pivot+1]
 
@@ -41,5 +39,5 @@ s = Solution()
 # print(s.twoSum([-5, -5, -1, 0], -10))   # [1,2]
 
 # print(s.twoSum([-3, 3, 4, 90], 0))      # [1,2]
-# print(s.twoSum([5, 25, 75], 100))      # [2,3]
+# print(s.twoSum([5, 25, 75], 100))       # [2,3]
 print(s.twoSum([1, 2, 3, 4, 4, 9, 56, 90], 8))  # [4, 5]
