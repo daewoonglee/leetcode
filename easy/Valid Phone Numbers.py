@@ -7,4 +7,7 @@ while IFS='' read -r line; do
         echo $line
     fi
 done < $filename
+
+# code refactoring
+egrep '^([0-9]{3}-|\([0-9]{3}\) )[0-9]{3}-[0-9]{4}$' file.txt
 """
