@@ -4,17 +4,32 @@ class Solution(object):
         :type s: str
         :rtype: int
         """
-        N = len(s)
-        ans = {k: set() for k in set(s)}
-        # 0.282495168
-        for k in ans:
-            i = s.index(k)
-            for j in range(N-1, i+1, -1):
-                if k == s[j]:
-                    for word in set(s[i+1:j]):
-                        ans[k].add(word)
-                    break
-        return sum([len(v) for v in ans.values()])
+        # N = len(s)
+        # ans = {k: set() for k in set(s)}
+        # # 0.282495168
+        # for k in ans:
+        #     i = s.index(k)
+        #     for j in range(N-1, i+1, -1):
+        #         if k == s[j]:
+        #             for word in set(s[i+1:j]):
+        #                 ans[k].add(word)
+        #             break
+        # return sum([len(v) for v in ans.values()])
+
+        # code refactoring - 0.788596403
+        alpha = "abcdefghijklmnopqrstuvwxyz"
+        suf = {s[i]: i for i in range(len(s))}
+        # print(f"suf: {suf}")
+        pre = set()
+        f = set()
+        for i in range(len(s)):
+            for c in alpha:
+                if c in pre and suf.get(c, -1) > i:
+                    f.add(s[i] + c)
+            pre.add(s[i])
+            # print(f"f: {f}")
+            # print(f"pre: {pre}\n")
+        return len(f)
 
 
 s = Solution()
