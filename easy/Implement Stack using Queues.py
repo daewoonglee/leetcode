@@ -5,7 +5,6 @@ class MyStack(object):
         Initialize your data structure here.
         """
         self.nums = list()
-        self.top_idx = 0
 
     def push(self, x):
         """
@@ -14,7 +13,6 @@ class MyStack(object):
         :rtype: None
         """
         self.nums.append(x)
-        self.top_idx += 1
         return None
 
     def pop(self):
@@ -22,25 +20,21 @@ class MyStack(object):
         Removes the element on top of the stack and returns that element.
         :rtype: int
         """
-        if self.top_idx:
-            self.top_idx -= 1
-            return self.nums.pop()
-        else:
-            return None
+        return self.nums.pop() if self.nums else None
 
     def top(self):
         """
         Get the top element.
         :rtype: int
         """
-        return self.nums[self.top_idx-1]
+        return self.nums[-1]
 
     def empty(self):
         """
         Returns whether the stack is empty.
         :rtype: bool
         """
-        return not self.top_idx
+        return not self.nums
 
 
 # Your MyStack object will be instantiated and called as such:
