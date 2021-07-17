@@ -28,20 +28,46 @@ class Solution(object):
         """
         if not root:
             return None
-        temp = root.left
-        root.left = root.right
-        root.right = temp
-        self.invertTree(root.left)
-        self.invertTree(root.right)
+
+        # 0.370668258
+        # temp = root.left
+        # root.left = root.right
+        # root.right = temp
+        # self.invertTree(root.left)
+        # self.invertTree(root.right)
+        # return root
+
+        # code refactoring 01 - 0.347262953
+        # root.left, root.right = root.right, root.left
+        # self.invertTree(root.left)
+        # self.invertTree(root.right)
+        # return root
+
+        # code refactoring 02 - 0.335051392
+        root.left, root.right = self.invertTree(root.right), self.invertTree(root.left)
         return root
 
     def test(self, nums):
         root = self.create_binary_tree(nums, 0)
         # self.print_node(root)
         inv_root = self.invertTree(root)
-        self.print_node(inv_root)
+        # self.print_node(inv_root)
 
 
 s = Solution()
 # s.test([4, 2, 7, 1, 3, 6, 9])
-s.test([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
+# s.test([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
+# s.test([])
+# s.test([1])
+s.test([1, 2, 3])
+
+
+if __name__ == '__main__':
+    from timeit import Timer
+    query = [[4, 2, 7, 1, 3, 6, 9],
+             [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
+             [],
+             [1],
+             [1, 2, 3]]
+    t = Timer(f"for t in {query}: Solution().test(t)", "from __main__ import Solution")
+    print(t.timeit(number=10000))
