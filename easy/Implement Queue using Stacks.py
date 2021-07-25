@@ -20,30 +20,25 @@ class MyQueue(object):
         Removes the element from in front of queue and returns that element.
         :rtype: int
         """
-        while self.s:
-            self.t.append(self.s.pop())
-        output = self.t.pop()
-        while self.t:
-            self.s.append(self.t.pop())
-        return output
+        _ = self.peek()
+        return self.t.pop()
 
     def peek(self):
         """
         Get the front element.
         :rtype: int
         """
-        self.t = self.s[:]
-        n = None
-        while self.t:
-            n = self.t.pop()
-        return n
+        if not self.t:
+            while self.s:
+                self.t.append(self.s.pop())
+        return self.t[-1]
 
     def empty(self):
         """
         Returns whether the queue is empty.
         :rtype: bool
         """
-        return False if self.s else True
+        return not self.s and not self.t
 
 
 # Your MyQueue object will be instantiated and called as such:
@@ -60,4 +55,5 @@ obj.push(2)
 param_2 = obj.peek()
 param_3 = obj.pop()
 param_4 = obj.empty()
-print(param_2, param_3, param_4)
+param_5 = obj.peek()
+print(param_2, param_3, param_4, param_5)
