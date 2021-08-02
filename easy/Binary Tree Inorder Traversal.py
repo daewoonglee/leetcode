@@ -27,11 +27,34 @@ class Solution(object):
         :type root: TreeNode
         :rtype: List[int]
         """
-        head = self.create_tree(root)
-        ans = []
-        self.get_inorder(head, ans)
-        return ans
+        # 0.053219652
+        # head = self.create_tree(root)
+        # if head is None:
+        #     return []
+        # ans = []
+        # self.get_inorder(head, ans)
+        # return ans
+
+        # 0.053970130000000005
+        # if root is None:
+        #     return []
+        # order_traversal = self.inorderTraversal(root.left)
+        # order_traversal.append(root.val)
+        # order_traversal.extend(self.inorderTraversal(root.right))
+        # return order_traversal
+
+        # 0.053800414000000005
+        return [] if root is None else self.inorderTraversal(root.left) + [root.val] + self.inorderTraversal(root.right)
 
 
 s = Solution()
-print(s.inorderTraversal([1, None, 2, None, None, 3]))
+# print(s.inorderTraversal([1, None, 2, None, None, 3]))
+print(s.inorderTraversal(s.create_tree([1, None, 2, None, None, 3])))
+
+
+if __name__ == '__main__':
+    from timeit import Timer
+    query = [[1, None, 2, None, None, 3]]
+    t = Timer(f"for t in {query}: Solution().inorderTraversal(Solution().create_tree(t))", "from __main__ import Solution")
+    # t = Timer(f"for t in {query}: Solution().inorderTraversal(t)", "from __main__ import Solution")
+    print(t.timeit(number=10000))
