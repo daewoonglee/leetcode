@@ -15,8 +15,24 @@ class Solution(object):
         node.right = self.create_binary_search_tree(root, idx*2+1)
         return node
 
-    # def search_node(self, root, p, q):
-    #     return pass
+    def search_node(self, root, p, q):
+        stack = [root]
+        search_list = []
+        p_idx = q_idx = 0
+        while stack and (not p_idx or not q_idx):
+            node = stack.pop(0)
+            # if node is None:
+            #     continue
+            search_list.append(node)
+            # if p == node:
+            if p.val == node.val:
+                p_idx = len(search_list)
+            # elif q == node:
+            elif q.val == node.val:
+                q_idx = len(search_list)
+            stack.append(node.left)
+            stack.append(node.right)
+        return search_list, p_idx, q_idx
 
     def lowestCommonAncestor(self, root, p, q):
         """
@@ -26,16 +42,34 @@ class Solution(object):
         :rtype: TreeNode
         """
         root = self.create_binary_search_tree(root)
-
-        li, p_idx, q_idx = self.search_node(root, p, q)
-        p_root_idx = q_root_idx = 0
-        while p_root_idx != q_root_idx:
+        li, p_idx, q_idx = self.search_node(root, TreeNode(p), TreeNode(q))
+        while p_idx != q_idx:
             if p_idx < q_idx:
-                q_root_idx = q_root_idx // 2
+                q_idx //= 2
             else:
-                p_root_idx = p_root_idx // 2
-        return li[p_root_idx]
+                p_idx //= 2
+        # return li[p_idx-1]
+        return li[p_idx-1].val
 
 
 s = Solution()
-print(s.lowestCommonAncestor([6, 2, 8, 0, 4, 7, 9], 2, 8))
+# print(s.lowestCommonAncestor([6, 2, 8, 0, 4, 7, 9], 2, 8))  # 6
+# print(s.lowestCommonAncestor([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5], 2, 8))    # 6
+# print(s.lowestCommonAncestor([6, 2, 8, 0, 4, 7, 9, None, None, 3, 5], 2, 4))    # 2
+# print(s.lowestCommonAncestor([2, 1], 2, 1)) # 2
+# print(s.lowestCommonAncestor([6, None, 8, None, None, None, 9, None, None, None, None, None, None, None, 2], 8, 9)) # 8
+# print(s.lowestCommonAncestor([6, None, 8, None, None, None, 9, None, None, None, None, None, None, None, 2], 9, 6)) # 6
+# print(s.lowestCommonAncestor([5, 3, 6, 2, 4, None, None, 1], 6, 1))
+print(s.lowestCommonAncestor([45,30,46,10,36,None,49,8,24,34,42,48,None,4,9,14,25,31,35,41,43,47,None,0,6,None,None,11,
+                              20,None,28,None,33,None,None,37,None,None,44,None,None,None,1,5,7,None,12,19,21,26,29,32,
+                              None,None,38,None,None,None,3,None,None,None,None,None,13,18,None,None,22,None,27,None,
+                              None,None,None,None,39,2,None,None,None,15,None,None,23,None,None,None,40,None,None,None,
+                              16,None,None,None,None,None,17], 47, 15))
+
+                                                                                                                                    45
+                                                                                        30,                                                                                                             46
+                                            10,                                                                                 36,                                         None,49,\
+                    8,                                              24,                                     34,                                             42,         48,None,4,9,\
+        14,                     25,                       31,                   35,                 41,                 43,                      47,                None,0,6,None,None,11,20,None,28,\
+    None,     33,         None,       None,        37,          None,     None,      44,      None,     None,     None,       1,            5,          7,          None,12,19,21,26,29,32,None,None,38,None,None,None,3,None,None,None,None,
+None,13,    18,None,    None,22,    None,27,    None,None,  None,None,  None,39,    2,None, None,None, 15,None, None,23,  None,None,    None,40,    None,None,      None,16,None,None,None,None,None,17]
