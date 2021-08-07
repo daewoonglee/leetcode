@@ -42,14 +42,13 @@ class Solution(object):
         :rtype: TreeNode
         """
         root = self.create_binary_search_tree(root)
-        li, p_idx, q_idx = self.search_node(root, TreeNode(p), TreeNode(q))
-        while p_idx != q_idx:
-            if p_idx < q_idx:
-                q_idx //= 2
+        while root:
+            if root.val > p and root.val > q:
+                root = root.left
+            elif root.val < p and root.val < q:
+                root = root.right
             else:
-                p_idx //= 2
-        # return li[p_idx-1]
-        return li[p_idx-1].val
+                return root.val
 
 
 s = Solution()
@@ -65,11 +64,18 @@ print(s.lowestCommonAncestor([45,30,46,10,36,None,49,8,24,34,42,48,None,4,9,14,2
                               None,None,38,None,None,None,3,None,None,None,None,None,13,18,None,None,22,None,27,None,
                               None,None,None,None,39,2,None,None,None,15,None,None,23,None,None,None,40,None,None,None,
                               16,None,None,None,None,None,17], 47, 15))
+print(s.lowestCommonAncestor([30, 10, 36, 8, 24, 34, 42, 14, 25, 31, 35, 41, 43, 47, None, None, 33, None, None, 37,
+                              None, None, 44, None, None, None, 1, 5, 7, None, 12, None, 13, 18, None, None, 22, None,
+                              27, None, None, None, None, None, 39, 2, None, None, None, 15, None, None, 23, None, None,
+                              None, 40, None, None], 47, 15))
 
-                                                                                                                                    45
-                                                                                        30,                                                                                                             46
-                                            10,                                                                                 36,                                         None,49,\
-                    8,                                              24,                                     34,                                             42,         48,None,4,9,\
-        14,                     25,                       31,                   35,                 41,                 43,                      47,                None,0,6,None,None,11,20,None,28,\
-    None,     33,         None,       None,        37,          None,     None,      44,      None,     None,     None,       1,            5,          7,          None,12,19,21,26,29,32,None,None,38,None,None,None,3,None,None,None,None,
-None,13,    18,None,    None,22,    None,27,    None,None,  None,None,  None,39,    2,None, None,None, 15,None, None,23,  None,None,    None,40,    None,None,      None,16,None,None,None,None,None,17]
+#                                                                                          45,\
+#                                                      30,                                                                        46,\
+#                         10,                                                     36,                                   N,                          49,\
+#               8,                         24,                        34,                    42,                                             48,               N,
+#         4,            9,           14,           25,          31,         35,        41,         43,                                   47,        N,
+#     0,     6,      N,     N,     11,   20,     N,   28,     N,    33,   N,    N,   37,   N,    N,   44,                               N, N,
+#   N, 1,  5, 7,                  N,12, 19,21,      26, 29,        32, N,           N, 38 ,          N ,N ,
+#     N,3,N N NN,                   N1318N N22,    N,27,NN,        NN,                 N,39,
+#      2,N,                         N,N15,N, N,23, N,N, N,40, N,N, N,16, N,N, N,N, N,17
+
