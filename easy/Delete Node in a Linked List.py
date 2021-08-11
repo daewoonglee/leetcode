@@ -33,13 +33,19 @@ class Solution(object):
             temp = temp.next
         node = temp
 
-        next_node = node.next
-        node.val = next_node.val
-        node.next = next_node.next
-        del next_node
+        # free ListNode version
+        # next_node = node.next
+        # node.val = next_node.val
+        # node.next = next_node.next
+        # del next_node
+
+        # code refactoring
+        node.val = node.next.val
+        node.next = node.next.next
 
         self.print_linked_list(head)
 
 
 s = Solution()
 print(s.deleteNode(3, [1, 2, 3, 4]))
+print(s.deleteNode(2, [1, 2, 3, 4]))
