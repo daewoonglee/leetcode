@@ -32,18 +32,42 @@ class Solution(object):
         root = self.create_binary_tree(root)
         # self.print_binary_tree(root)
 
-        stack = [[root, []]]
+        # 0.623115534
+        # stack = [[root, []]]
+        # ans = []
+        # while stack:
+        #     node, log = stack.pop()
+        #     log.append(str(node.val))
+        #     if is_leaf(node):
+        #         ans.append("->".join(log))
+        #     else:
+        #         if node.left:
+        #             stack.append([node.left, log[:]])
+        #         if node.right:
+        #             stack.append([node.right, log[:]])
+        # return ans
+
+        # code refactoring 01 - 0.522292423
+        stack = [[root, ""]]
         ans = []
         while stack:
             node, log = stack.pop()
-            log.append(str(node.val))
+            # code refactoring 01
+            # log = log + "->" + str(node.val) if log else str(node.val)
+
+            # code refactoring 02 - 0.513015967
+            log = log + "->" + str(node.val)
             if is_leaf(node):
-                ans.append("->".join(log))
+                # code refactoring 01
+                # ans.append(log)
+
+                # code refactoring 02 - 0.513015967
+                ans.append(log[2:])
             else:
                 if node.left:
-                    stack.append([node.left, log[:]])
+                    stack.append([node.left, log])
                 if node.right:
-                    stack.append([node.right, log[:]])
+                    stack.append([node.right, log])
         return ans
 
 
@@ -53,5 +77,19 @@ s = Solution()
 # print(s.binaryTreePaths([1, 2, 3]))
 # print(s.binaryTreePaths([1, 2, 3, 4]))
 # print(s.binaryTreePaths([1, 2, 3, None, 5]))
+print(s.binaryTreePaths([1, 2, 3, None, None, None, 5]))
 # print(s.binaryTreePaths([1, 2, 3, 4, 5, 6]))
-print(s.binaryTreePaths([1, 2, 3, 4, 5, 6, 7]))
+# print(s.binaryTreePaths([1, 2, 3, 4, 5, 6, 7]))
+
+
+if __name__ == '__main__':
+    from timeit import Timer
+    query = [[1],
+             [1, 2],
+             [1, 2, 3],
+             [1, 2, 3, 4],
+             [1, 2, 3, None, 5],
+             [1, 2, 3, 4, 5, 6],
+             [1, 2, 3, 4, 5, 6, 7]]
+    t = Timer(f"for t in {query}: Solution().binaryTreePaths(t)", "from __main__ import Solution")
+    print(t.timeit(number=10000))
