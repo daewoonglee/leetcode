@@ -4,7 +4,21 @@ class Solution(object):
         :type n: int
         :rtype: int
         """
-        
+        row = 2
+        local_n = 1
+        while local_n + row - 1 < n:
+            local_n += row
+            row += 1
+        return row-1
+
+
+s = Solution()
+print(s.arrangeCoins(1))
+print(s.arrangeCoins(3))
+print(s.arrangeCoins(6))
+print(s.arrangeCoins(10))
+print(s.arrangeCoins(14))
+print(s.arrangeCoins(15))        
 
 
 
