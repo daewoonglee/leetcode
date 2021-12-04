@@ -4,10 +4,17 @@ class Solution(object):
         :type s: str
         :rtype: bool
         """
-        if len(s) < 4: return len(set(s)) == 1
+        # 0.2537928009405732
+        #for i in range(1, len(s)//2+1):
+        #    split_s = [s[j: j+i] for j in range(0, len(s), i)]
+        #    if len(set(split_s)) == 1: return True
+        #return False
+        
+        # code refactoring - 0.21546904556453228 
         for i in range(1, len(s)//2+1):
-            split_s = [s[j: j+i] for j in range(0, len(s), i)]
-            if len(set(split_s)) == 1: return True
+            if len(s) % i == 0:
+                split_s = [s[j: j+i] for j in range(0, len(s), i)]
+                if len(set(split_s)) == 1: return True
         return False
 
 
@@ -22,4 +29,11 @@ print(s.repeatedSubstringPattern("abababac"))
 #print(s.repeatedSubstringPattern("aabaaba"))
 #print(s.repeatedSubstringPattern("aaaaa"))
 #print(s.repeatedSubstringPattern("abcabcabc"))
+
+
+if __name__ == '__main__':
+    from timeit import Timer
+    query = ["a", "aa", "ab", "abab", "abac", "abababac", "abcab", "aabaaba", "aaaaa", "abcabcabc"]
+    t = Timer(f"for t in {query}: Solution().repeatedSubstringPattern(t)", "from __main__ import Solution")
+    print(t.timeit(number=10000))
 
