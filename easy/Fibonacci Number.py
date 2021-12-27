@@ -6,16 +6,23 @@ class Solution(object):
         """
         if n < 2:
             return n
+
+        #ans = [0, 1]
         # 0.5672869747504592
-        ans = [0, 1]
-        for i in range(n-1):
-            ans.append(ans[-2] + ans[-1])
-        return ans[-1]
+        #for i in range(n-1):
+        #    ans.append(ans[-2] + ans[-1])
+        #return ans[-1]
 
         # version2 - 0.6425016699358821
         #for i in range(n-1):
         #    ans[i%2] += ans[i%2-1]
         #return ans[n%2]
+
+        # code refactoring (R) - 0.24224239215254784
+        a, b = 0, 1
+        for i in range(n-1):
+            a, b = b, a+b
+        return b
 
 
 s = Solution()
