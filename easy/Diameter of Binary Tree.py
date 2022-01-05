@@ -23,18 +23,25 @@ class Solution(object):
         """
         def get_edges(pts):
             edges = 0
-            stack = [[pts, 1]]
-            while stack:
-                node, depth = stack.pop()
-                if node.left: stack.append([node.left, depth+1])
-                if node.right: stack.append([node.right, depth+1])
+            stack_edges = [[pts, 1]]
+            while stack_edges:
+                node, depth = stack_edges.pop()
+                if node.left: stack_edges.append([node.left, depth+1])
+                if node.right: stack_edges.append([node.right, depth+1])
                 if edges < depth: edges = depth
             return edges
 
         root = self.create_binary_tree(root)
-        left_depth = get_edges(root.left) if root.left else 0
-        right_depth = get_edges(root.right) if root.right else 0
-        return left_depth + right_depth
+        stack_node = [root]
+        max_edges = 0
+        while stack_node:
+            node = stack_node.pop()
+            left_edges = get_edges(node.left) if node.left else 0
+            right_edges = get_edges(node.right) if node.right else 0
+            if left_edges + right_edges > max_edges: max_edges = left_edges + right_edges
+            if node.left: stack_node.append(node.left)
+            if node.right: stack_node.append(node.right)
+        return max_edges
 
 
 s = Solution()
@@ -42,5 +49,5 @@ print(s.diameterOfBinaryTree([1, 2, 3, 4, 5])) # 3
 print(s.diameterOfBinaryTree([1, None, 3, None, None, None, 4, None, None, None, None, None, None, 5, 6])) # 3
 print(s.diameterOfBinaryTree([1])) # 0
 print(s.diameterOfBinaryTree([1,2])) # 1
-i#print(s.diameterOfBinaryTree([4,-7,-3,null,null,-9,-3,9,-7,-4,null,6,null,-6,-6,null,null,0,6,5,null,9,null,null,-1,-4,null,null,null,-2])) # expected 8, output 7
+#print(s.diameterOfBinaryTree([4,-7,-3,null,null,-9,-3,9,-7,-4,null,6,null,-6,-6,null,null,0,6,5,null,9,null,null,-1,-4,null,null,null,-2])) # expected 8, output 7
  
