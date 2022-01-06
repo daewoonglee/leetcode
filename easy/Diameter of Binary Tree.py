@@ -7,6 +7,10 @@ class TreeNode(object):
 
 
 class Solution(object):
+
+    def __init__(self):
+        self.maximum=0
+
     def create_binary_tree(self, root, idx=1):
         if idx > len(root) or not root[idx-1]:
             return None
@@ -21,8 +25,9 @@ class Solution(object):
         :type root: TreeNode
         :rtype: int
         """
-        # 0.21875363029539585
+
         """
+        # 0.21875363029539585
         def get_edges(pts):
             edges = 0
             stack_edges = [[pts, 1]]
@@ -46,18 +51,36 @@ class Solution(object):
         return max_edges
         """
 
-        # code refactoring - 0.1862743031233549
+        # code refactoring - 0.2089477851986885
         def get_edges(node):
             if not node: return [0,0]
             L, ledges = get_edges(node.left)
             R, redges = get_edges(node.right)
             if not L and not R: return [1,0]
+            # code refactoring 02 (elif  추가하면) - 0.1993346344679594 (max, callback funtion)
             elif not L: return [R+1,redges+1] if R != redges else [R+1, redges]
             elif not R: return [L+1,ledges+1] if L != ledges else [L+1, ledges]
             else: return [max(L,R)+1,max(ledges,redges,L+R)]
 
         root = self.create_binary_tree(root)
         return get_edges(root)[1]
+
+        """
+        # code refactoring (R) - 0.23067428916692734
+        def get_edges(node):
+            if not node: return 0
+            L = get_edges(node.left)
+            R = get_edges(node.right)
+            self.maximum = max(self.maximum, L+R)
+            return max(L, R)+1
+
+        root = self.create_binary_tree(root)
+        get_edges(root)
+        #ans = self.maximum
+        #self.maximum = 0
+        #return ans
+        return self.maximum
+        """
 
 
 s = Solution()
