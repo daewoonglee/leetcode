@@ -6,20 +6,18 @@ class Solution(object):
         :type c: int
         :rtype: List[List[int]]
         """
-        ans = [[0 for _ in range(c)] for _ in range(r)]
         mat_h, mat_w = len(mat), len(mat[0])
-        print(f"ans: {ans}")
-        print(f"h: {mat_h}, w: {mat_w}")
-
         if r*c != mat_h*mat_w: return mat
-        for i, mat_r in enumerate(mat):
-            for j, mat_c in enumerate(mat_r):
-                # ans[i][j] = mat_c
-                # j = i*2+j
-                pass
+
+        ans = [[0 for _ in range(c)] for _ in range(r)]
+        for i in range(r*c):
+            ans[i//c][i%c] = mat[i//mat_w][i%mat_w]
         return ans
 
 
 s = Solution()
 print(s.matrixReshape([[1,2],[3,4]], 1, 4))
-
+print(s.matrixReshape([[1,2],[3,4]], 2, 4))
+print(s.matrixReshape([[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]], 2, 8))
+print(s.matrixReshape([[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]], 8, 2))
+print(s.matrixReshape([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10], [11, 12], [13, 14], [15, 16]], 4, 4))
