@@ -17,16 +17,13 @@ class Solution(object):
         return node
 
     def is_sub(self, r, s):
-        if r and not s or not r and s:
-            return False
-        elif not r and not s:
+        # 0.23148754984140396
+        if not r and not s:
             return True
-        else:
-            if r.val == s.val:
-                L = self.is_sub(r.left, s.left)
-                R = self.is_sub(r.right, s.right)
-                return L and R
-            return False
+        elif r and s and r.val == s.val:
+            return self.is_sub(r.left, s.left) and self.is_sub(r.right, s.right)
+        return False
+
 
     def isSubtree(self, root, subRoot):
         """
@@ -36,18 +33,30 @@ class Solution(object):
         """
         root = self.create_binary_tree(root)
         subRoot = self.create_binary_tree(subRoot)
-        q = deque([root])
-        while q:
-            node = q.popleft()
-            if node.val == subRoot.val:
-                if self.is_sub(node, subRoot): return True
-            if node.left: q.append(node.left)
-            if node.right: q.append(node.right)
-        return False
+        #q = deque([root])
+        #while q:
+        #    node = q.popleft()
+        #    if node.val == subRoot.val:
+        #        if self.is_sub(node, subRoot): return True
+        #    if node.left: q.append(node.left)
+        #    if node.right: q.append(node.right)
+        #return False
+
+        # code refactoring (R) - 0.26330114901065826
+        def convert(p):
+            return f" {p.val}{convert(p.left)}{convert(p.right)}" if p else " # "
+        return convert(subRoot) in convert(root)
 
 
 s = Solution()
 print(s.isSubtree([3,4,5,1,2], [4,1,2]))
 print(s.isSubtree([1], [1]))
 print(s.isSubtree([1, 1], [1]))
+
+
+if __name__ == '__main__':
+    from timeit import Timer
+    query = [[[3,4,5,1,2],[4,1,2]], [[1], [1]], [[1, 1], [1]], [[1,2,3,4,5], [5]]]
+    t = Timer(f"for t in {query}: Solution().isSubtree(*t)", "from __main__ import Solution")
+    print(t.timeit(number=10000))
 
