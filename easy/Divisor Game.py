@@ -1,12 +1,6 @@
 class Solution:
     def divisorGame(self, n: int) -> bool:
-        game = [False for _ in range(n+1)]
-        for num in range(n+1):
-            for x in range(1, num//2+1):
-                if num % x == 0 and not game[num-x]:
-                    game[num] = True
-                    break
-        return game[n]
+        return n % 2 == 0
 
 
 s = Solution()
