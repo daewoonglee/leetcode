@@ -1,19 +1,12 @@
 class Solution:
     def maxRepeating(self, sequence: str, word: str) -> int:
-        ans = 0
-        N = len(word)
-        for i in range(len(sequence) - N + 1):
-            if sequence[i: i+N] == word:
-                tmp_ans = 1
-                j = 1
-                while 1:
-                    if sequence[i+N*j: i+N*(j+1)] == word:
-                        tmp_ans += 1
-                    else: break
-                    j += 1
-                if ans < tmp_ans:
-                    ans = tmp_ans
-        return ans
+        N = len(sequence)
+        W = len(word)
+        dp = [0] * N
+        for i in range(N):
+            if sequence[i: i+W] == word:
+                dp[i] = dp[i-W] + 1
+        return max(dp)
 
 
 s = Solution()
