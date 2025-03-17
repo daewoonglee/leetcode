@@ -1,16 +1,10 @@
 class Solution:
     def countVowelStrings(self, n: int) -> int:
-        def counting(idx, depth):
-            if depth+1 < n:
-                c = 0
-                for j, v in enumerate(vowel[idx:]):
-                    c += counting(idx+j, depth=depth+1)
-            else:
-                c = len(vowel[idx:])
-            return c
-
-        vowel = ["a", "e", "i", "o", "u"]
-        return counting(0, 0)
+        dp = [[1]*5] + [[0]*5 for _ in range(n-1)]
+        for i in range(1, n):
+            for j in range(5):
+                dp[i][j] = dp[i-1][j] + dp[i][j-1]
+        return sum(dp[-1])
 
 
 s = Solution()
