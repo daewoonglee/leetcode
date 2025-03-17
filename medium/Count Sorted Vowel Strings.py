@@ -1,10 +1,16 @@
+import math
+
+
 class Solution:
     def countVowelStrings(self, n: int) -> int:
-        dp = [[1]*5] + [[0]*5 for _ in range(n-1)]
-        for i in range(1, n):
-            for j in range(5):
-                dp[i][j] = dp[i-1][j] + dp[i][j-1]
-        return sum(dp[-1])
+        # dp = [[1]*5] + [[0]*5 for _ in range(n-1)]
+        # for i in range(1, n):
+        #     for j in range(5):
+        #         dp[i][j] = dp[i-1][j] + dp[i][j-1]
+        # return sum(dp[-1])
+
+        k = 5
+        return math.comb(n+k-1, k-1)
 
 
 s = Solution()
