@@ -5,20 +5,16 @@ class Solution:
         list1.sort()
         list2.sort()
         min_idx = float('inf')
-        i, j = 0, 0
         ans = []
-        while i < len(list1) and j < len(list2):
-            if list1[i] == list2[j]:
-                if li1_dict[list1[i]] + li2_dict[list2[j]] < min_idx:
-                    ans = [list1[i]]
-                    min_idx = li1_dict[list1[i]] + li2_dict[list2[j]]
-                elif li1_dict[list1[i]] + li2_dict[list2[j]] == min_idx:
-                    ans.append(list1[i])
-                j += 1
-            elif list1[i] < list2[j]:
-                i += 1
-            else:
-                j += 1
+        for i in li1_dict:
+            if i in li2_dict:
+                idx_sum = li1_dict[i] + li2_dict[i]
+                min_idx = idx_sum if idx_sum < min_idx else min_idx
+
+        for i in li1_dict:
+            if i in li2_dict:
+                if li1_dict[i] + li2_dict[i] == min_idx:
+                    ans.append(i)
         return ans
 
 
