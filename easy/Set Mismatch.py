@@ -1,20 +1,30 @@
 class Solution:
     def findErrorNums(self, nums: list[int]) -> list[int]:
-        plus = 1 if nums[0] == 1 else -1
-        reverse = 1 if nums[-1] == 1 else 0
-        pre_n = nums[0]
-        for i, n in enumerate(nums[1:]):
-            if pre_n == n:
-                return [n, n+1] if reverse else [n, n+plus]
-            pre_n = n
-        return [-1, -1]
+        nums.sort()
+
+        dup_n = nums[0]
+        idx = 1
+        N = len(nums)
+        while idx < N and dup_n != nums[idx]:
+            dup_n = nums[idx]
+            idx += 1
+
+        loss_n = N
+        for i, n in enumerate(nums[:idx] + nums[idx+1:]):
+            if i + 1 != n:
+                loss_n = i+1
+                break
+        return [dup_n, loss_n]
 
 
 s = Solution()
-print(s.findErrorNums([1,2,2,4])) # [2,3]
-print(s.findErrorNums([1,1])) # [1,2]
-print(s.findErrorNums([2,2])) # [2,1]
-print(s.findErrorNums([1,2,2])) # [2,3]
-print(s.findErrorNums([2,2,1])) # [2,3]
-print(s.findErrorNums([4,2,2,1])) # [2,3]
-print(s.findErrorNums([2,3,2])) # [2,1], 방향성 없이 중복되어 없어진 값을 찾아야 하는듯
+# print(s.findErrorNums([1,2,2,4])) # [2,3]
+# print(s.findErrorNums([1,1])) # [1,2]
+# print(s.findErrorNums([2,2])) # [2,1]
+# print(s.findErrorNums([1,2,2])) # [2,3]
+# print(s.findErrorNums([1,3,3])) # [3,2]
+# print(s.findErrorNums([2,2,1])) # [2,3]
+# print(s.findErrorNums([4,2,2,1])) # [2,3]
+# print(s.findErrorNums([2,3,2])) # [2,1], 방향성 없이 중복되어 없어진 값을 찾아야 하는듯
+# print(s.findErrorNums([5,4,3,2,1,1])) # [1,6]
+print(s.findErrorNums([2,3,3,4,6,5])) # [3,1]
