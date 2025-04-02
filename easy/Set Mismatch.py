@@ -1,20 +1,10 @@
 class Solution:
     def findErrorNums(self, nums: list[int]) -> list[int]:
-        nums.sort()
-
-        dup_n = nums[0]
-        idx = 1
         N = len(nums)
-        while idx < N and dup_n != nums[idx]:
-            dup_n = nums[idx]
-            idx += 1
-
-        loss_n = N
-        for i, n in enumerate(nums[:idx] + nums[idx+1:]):
-            if i + 1 != n:
-                loss_n = i+1
-                break
-        return [dup_n, loss_n]
+        total_sum = sum(nums)
+        unique_sum = sum(set(nums))
+        expected_sum = N * (N+1) // 2
+        return [total_sum - unique_sum, expected_sum - unique_sum]
 
 
 s = Solution()
