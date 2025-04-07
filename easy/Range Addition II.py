@@ -1,7 +1,6 @@
 class Solution:
     def maxCount(self, m: int, n: int, ops: list[list[int]]) -> int:
-        if not ops: return m*n
-        min_x, min_y = 40000, 40000
+        min_x, min_y = m, n
         for x, y in ops:
             if x < min_x: min_x = x
             if y < min_y: min_y = y
