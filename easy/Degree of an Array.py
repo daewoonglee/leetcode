@@ -1,24 +1,10 @@
-from collections import Counter
-
-
 class Solution:
     def findShortestSubArray(self, nums: list[int]) -> int:
-        N = len(nums)
-        subarray = {n: [-1, N] for n in nums}
+        subarray = {n: [] for n in nums}
         for i, n in enumerate(nums):
-            idx = 0 if subarray[n][0] == -1 else 1
-            subarray[n][idx] = i
-
-        ans = N
-        count_dict = sorted(Counter(nums).items(), key=lambda x: x[1])[::-1]
-        max_count = count_dict[0][1]
-        if max_count == 1: return 1
-        for k, v in count_dict:
-            if v != max_count:
-                break
-            start_idx, end_idx = subarray[k]
-            ans = ans if ans < (end_idx - start_idx + 1) else (end_idx - start_idx + 1)
-        return ans
+            subarray[n].append(i)
+        max_count = max([len(arr) for arr in subarray.values()])
+        return min([arr[-1] - arr[0] for arr in subarray.values() if len(arr) == max_count]) + 1
 
 
 s = Solution()
