@@ -1,16 +1,16 @@
 class Solution:
     def isOneBitCharacter(self, bits: list[int]) -> bool:
         N = len(bits)
+        if N == 1:
+            return not bool(bits[0])
+
         i = 0
-        ans = []
-        while i < N:
+        while i < N-1:
             if bits[i] == 1:
-                ans.append(bits[i:i+2])
                 i += 2
             else:
-                ans.append(bits[i])
                 i += 1
-        return True if ans[-1] == 0 else False
+        return i == N-1
 
 
 s = Solution()
