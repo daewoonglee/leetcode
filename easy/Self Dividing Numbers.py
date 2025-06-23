@@ -2,10 +2,12 @@ class Solution:
     def selfDividingNumbers(self, left: int, right: int) -> list[int]:
         ans = []
         for num in range(left, right+1):
-            for ch in str(num):
-                ch = int(ch)
-                if ch <= 0 or num % ch != 0:
+            temp = num
+            while temp > 0:
+                d = temp % 10
+                if d == 0 or num % d != 0:
                     break
+                temp //= 10
             else:
                 ans.append(num)
         return ans
