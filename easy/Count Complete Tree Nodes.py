@@ -12,12 +12,7 @@ class Solution:
         if not root:
             return 0
 
-        n = 0
-        if root.left:
-            n += self.countNodes(root.left)
-        if root.right:
-            n += self.countNodes(root.right)
-        return n + 1
+        return 1 + self.countNodes(root.left) + self.countNodes(root.right)
 
 
 r = TreeNode(1)
