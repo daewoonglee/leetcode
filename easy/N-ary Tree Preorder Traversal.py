@@ -2,21 +2,30 @@
 class Node:
     def __init__(self, val: int | None = None, children: list['Node'] | None = None):
         self.val = val
-        self.children = children
+        self.children = children if children else []
 
 
 class Solution:
+    # def preorder(self, root: Node) -> list[int]:
+    #     ans = []
+    #     def dfs(node):
+    #         if not node: return
+    #         ans.append(node.val)
+    #         for n in node.children:
+    #             dfs(n)
+    #     dfs(root)
+    #     return ans
+
     def preorder(self, root: Node) -> list[int]:
-        return self.dfs(root, [])
-
-    def dfs(self, root_node: Node, ans: list[int]) -> list[int]:
-        if root_node:
-            ans.append(root_node.val)
-            if root_node.children is not None:
-                for r in root_node.children:
-                    self.dfs(r, ans)
+        ans = []
+        stack = [root]
+        while stack:
+            node = stack.pop()
+            if node is None: continue
+            ans.append(node.val)
+            for n in reversed(node.children):
+                stack.append(n)
         return ans
-
 
 
 root = Node(1)
