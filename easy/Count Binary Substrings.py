@@ -1,20 +1,17 @@
 class Solution:
     def countBinarySubstrings(self, s: str) -> int:
-        log = []
-        target, cnt = s[0], 1
-        for ch in s[1:]:
-            if target == ch:
-                cnt += 1
-            else:
-                log.append(cnt)
-                target = ch
-                cnt = 1
-        log.append(cnt)
-
         ans = 0
-        for i in range(len(log)-1):
-            ans += min(log[i], log[i+1])
-        return ans
+        pre, cur = 0, 0
+        target = s[0]
+        for ch in s:
+            if target == ch:
+                cur += 1
+            else:
+                ans += min(pre, cur)
+                target = ch
+                pre = cur
+                cur = 1
+        return ans + min(pre, cur)
 
 
 s = Solution()
