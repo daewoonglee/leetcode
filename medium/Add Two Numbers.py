@@ -10,7 +10,8 @@ class ListNode:
 
 class Solution:
     def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-        head, cur = None, None
+        head = ListNode(0)
+        cur = head
         q = 0
         while l1 or l2:
             n = q
@@ -22,16 +23,12 @@ class Solution:
                 l2 = l2.next
 
             q, n = divmod(n, 10)
-            if head is None:
-                head = ListNode(n)
-                cur = head
-            else:
-                cur.next = ListNode(n)
-                cur = cur.next
+            cur.next = ListNode(n)
+            cur = cur.next
         if q != 0:
             cur.next = ListNode(q)
-
-        return head
+        cur = None
+        return head.next
 
 
 n1 = ListNode(2)
