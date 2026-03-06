@@ -6,14 +6,11 @@ class Solution:
         ans = 0
         substr = deque()
         for ch in s:
-            if ch not in substr:
-                substr.append(ch)
-            else:
-                ans = ans if ans > len(substr) else len(substr)
-                while ch in substr:
-                    substr.popleft()
-                substr.append(ch)
-        return ans if ans > len(substr) else len(substr)
+            while ch in substr:
+                substr.popleft()
+            substr.append(ch)
+            ans = ans if ans > len(substr) else len(substr)
+        return ans
 
 
 s = Solution()
