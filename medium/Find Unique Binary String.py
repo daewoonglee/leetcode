@@ -1,11 +1,16 @@
 class Solution:
     def findDifferentBinaryString(self, nums: list[str]) -> str:
         N = len(nums)
-        ans = set(bin(i)[2:].zfill(N) for i in range(2**N))
+        unique_bin = {bin(i)[2:].zfill(N) : 1 for i in range(2**N)}
         for n in nums:
-            if n in ans:
-                ans.remove(n)
-        return ans.pop()
+            unique_bin[n] = 0
+
+        ans = ""
+        for k, v in unique_bin.items():
+            if v:
+                ans = k
+                break
+        return ans
 
 
 s = Solution()
