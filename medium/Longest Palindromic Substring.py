@@ -1,19 +1,18 @@
 class Solution:
     def longestPalindrome(self, s: str) -> str:
-        def set_palindrome(start, end, res):
+        def set_palindrome(start: int, end: int) -> str:
             while start >= 0 and end < N and s[start] == s[end]:
-                if (end - start + 1) > len(res):
-                    res = s[start: end+1]
                 start -= 1
                 end += 1
-            return res
+            return s[start+1: end]
 
         N = len(s)
-        res = ""
+        ans = ""
         for i in range(N):
-            res = set_palindrome(i, i, res)
-            res = set_palindrome(i, i+1, res)
-        return res
+            odd = set_palindrome(i, i)
+            even = set_palindrome(i, i + 1)
+            ans = max(ans, odd, even, key=len)
+        return ans
 
 
 s = Solution()
