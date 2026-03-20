@@ -3,10 +3,12 @@ class Solution:
         ps = "@" + "#".join(s) + "$"
         P = [0] * len(ps)
         R, C = 0, 0
+        best_center, best_len = 0, 0
+
         for i in range(1, len(ps)-1):
             if i < R:
-                mirror = 2*C-i
-                P[i] = min(R-i, P[mirror])
+                P[i] = min(R-i, P[2*C-i])
+
             while ps[i-P[i]-1] == ps[i+P[i]+1]:
                 P[i] += 1
 
@@ -14,14 +16,13 @@ class Solution:
                 C = i
                 R = i+P[i]
 
-        ans = ""
-        longest_radius = max(P)
-        for center, radius in enumerate(P):
-            if radius == longest_radius:
-                plus = 1 if center % 2 != 0 or ps[center] == "#" else 0
-                N = len(ans) if ans and ans[0] != "#" else len(ans)-2
-                ans = ps[center-radius: center+radius+plus] if N < 2*radius+plus else ans
-        return ans.replace("#", "") if len(ans) else s[0]
+            if P[i] >= best_len:
+                actual = len(ps[i - P[i]: i + P[i] + 1].replace("#", ""))
+                if actual > best_len:
+                    best_len, best_center = actual, i
+
+        radius = P[best_center]
+        return ps[best_center - radius: best_center + radius + 1].replace("#", "") if radius > 0 else s[0]
 
 
 s = Solution()
