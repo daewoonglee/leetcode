@@ -1,28 +1,14 @@
 class Solution:
     def intToRoman(self, num: int) -> str:
-        symbol_dict = {
-            1000: {1000: "M"},
-            100: {500: "D", 100: "C"},
-            10: {50: "L", 10: "X"},
-            1: {5: "V", 1: "I"}
-        }
-        subtract_form = {4: "IV", 40: "XL", 400: "CD", 9: "IX", 90: "XC", 900: "CM"}
+        symbols = [
+            (1000, "M"), (900, "CM"), (500, "D"), (400, "CD"), (100, "C"),
+            (90, "XC"), (50, "L"), (40, "XL"), (10, "X"), (9, "IX"), (5, "V"), (4, "IV"), (1, "I")
+        ]
         ans = ""
-
-        for i in [1000, 100, 10, 1]:
-            q = num // i
-            target = q*i
-            num -= target
-
-            if str(target)[0] in ["4", "9"]:
-                ans += subtract_form[target]
-            else:
-                for k, v in symbol_dict[i].items():
-                    if target >= k:
-                        q = target // k
-                        target -= k*q
-                        ans += v*q
-            print(f"target: {target}, ans: {ans}")
+        for value, symbol in symbols:
+            while num >= value:
+                ans += symbol
+                num -= value
         return ans
 
 
