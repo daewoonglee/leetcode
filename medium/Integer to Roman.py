@@ -3,30 +3,31 @@ class Solution:
         symbol_dict = {1000: "M", 500: "D", 100: "C", 50: "L", 10: "X", 5: "V", 1: "I"}
         rev_values = list(reversed(symbol_dict.keys()))
         ans = ""
-        while num >= 4:
-            if str(num)[0] in ["4", "9"]:
-                for v in rev_values:
-                    if num < v:
-                        diff = v//10 # 4가 들어오면 0이 나오는 케이스 발생
-                        diff_num = v-num//diff*diff
-                        num -= (v-diff_num)
-                        ans += symbol_dict[diff_num]
-                        ans += symbol_dict[v]
+
+        for i in [1000, 100, 10, 1]:
+            q, d = divmod(num, i)
+            target = q*i
+            num -= target
+
+            if str(target)[0] in ["4", "9"]:
+                for rv in rev_values:
+                    if target < rv:
+                        ans += symbol_dict[rv-target]
+                        ans += symbol_dict[rv]
                         break
             else:
-                for value, symbol in symbol_dict.items():
-                    if num > value:
-                        num %= value
-                        ans += symbol
-                        break
-        if num != 0:
-            for _ in range(num):
-                ans += symbol_dict[1]
+                for k, v in symbol_dict.items():
+                    if target >= k:
+                        q = target // k
+                        target -= k*q
+                        ans += v*q
+            print(f"target: {target}, ans: {ans}")
         return ans
 
 
 s = Solution()
 # print(s.intToRoman(3749)) # MMMDCCXLIX
 # print(s.intToRoman(58)) # LVIII
-print(s.intToRoman(1994)) # MCMXCIV
+# print(s.intToRoman(1994)) # MCMXCIV
 # print(s.intToRoman(400)) # CD
+print(s.intToRoman(49)) # XLIX
