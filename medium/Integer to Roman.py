@@ -1,20 +1,16 @@
 class Solution:
     def intToRoman(self, num: int) -> str:
         symbol_dict = {1000: "M", 500: "D", 100: "C", 50: "L", 10: "X", 5: "V", 1: "I"}
-        rev_values = list(reversed(symbol_dict.keys()))
+        subtract_form = {4: "IV", 40: "XL", 400: "CD", 9: "IX", 90: "XC", 900: "CM"}
         ans = ""
 
         for i in [1000, 100, 10, 1]:
-            q, d = divmod(num, i)
+            q = num // i
             target = q*i
             num -= target
 
             if str(target)[0] in ["4", "9"]:
-                for rv in rev_values:
-                    if target < rv:
-                        ans += symbol_dict[rv-target]
-                        ans += symbol_dict[rv]
-                        break
+                ans += subtract_form[target]
             else:
                 for k, v in symbol_dict.items():
                     if target >= k:
