@@ -1,40 +1,28 @@
 class Solution:
     def myAtoi(self, s: str) -> int:
-        def check_leading(leading_sign):
-            idx = 0
-            for i, ch in enumerate(s):
-                if ch != leading_sign:
-                    idx = i
-                    break
-            return idx
-
-        idx = check_leading(" ")
-        s = s[idx:]
+        s = s.lstrip() # remove left whitespace
 
         if not s:
             return 0
 
-        UPPER = 2147483647
-        DOWN = -2147483648
+        MAX = pow(2, 31)-1
+        MIN = -pow(2, 31)
 
         sign = -1 if s[0] == '-' else 1
         s = s[1:] if s[0] in ['-', '+'] else s
 
-        idx = check_leading("0")
-        s = s[idx:]
-
         res = []
         for ch in s:
-            if 48 <= ord(ch) <= 57:
+            if ch.isdigit():
                 res.append(ch)
             else:
                 break
 
-        ans = "".join(res)
-        ans = int(ans) * sign if ans != '' else 0
-        ans = UPPER if UPPER < ans else ans
-        ans = DOWN if ans < DOWN else ans
-        return ans
+        if not res:
+            return 0
+
+        ans = int("".join(res)) * sign
+        return max(MIN, min(MAX, ans))
 
 
 s = Solution()
