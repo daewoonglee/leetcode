@@ -1,14 +1,21 @@
 class Solution:
     def maxArea(self, height: list[int]) -> int:
-        area = [0] * len(height)
-        for i, h in enumerate(height):
-            for j in range(i):
-                area[j] = max(area[j], min(h, height[j])*(i-j))
-        print(area)
-        return max(area)
+        ans = 0
+        L, R = 0, len(height)-1
+        while L < R:
+            if height[L] < height[R]:
+                value = height[L] * (R-L)
+                L += 1
+            else:
+                value = height[R] * (R-L)
+                R -= 1
+
+            if ans < value:
+                ans = value
+        return ans
 
 
 s = Solution()
 # print(s.maxArea([1,8,6,2,5,4,8,3,7])) # 49
 # print(s.maxArea([1,1])) # 1
-print(s.maxArea([5, 8, 9, 10, 11, 12, 10, 9, 8, 8, 8, 8, 8, 8, 8, 13])) # 144
+print(s.maxArea([1,2,3,4,5,6,5,4,3])) # 18
