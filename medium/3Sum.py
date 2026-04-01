@@ -1,16 +1,15 @@
-from itertools import combinations
-from collections import Counter
-
-
 class Solution:
     def threeSum(self, nums: list[int]) -> list[list[int]]:
-        filtered_num = [k for k, v in Counter(nums).items() for _ in range(min(v, 3))]
+        nums.sort()
         ans = []
-        for c in combinations(filtered_num, 3):
-            c = sorted(list(c))
-            if sum(c) == 0:
-                ans.append(c)
-        return [list(t) for t in set(map(tuple, ans))]
+        for i, target in enumerate(nums):
+            dp = dict()
+            for j in range(i+1, len(nums)):
+                n = -(nums[j] + target)
+                if n in dp:
+                    ans.append((target, nums[j], n))
+                dp[nums[j]] = n
+        return [list(t) for t in set(ans)]
 
 
 s = Solution()
