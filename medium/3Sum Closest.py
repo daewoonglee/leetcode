@@ -3,17 +3,20 @@ class Solution:
         N = len(nums)
         nums.sort()
         ans = 0
-        diff = 10**5
+        min_diff = float('inf')
         for i, n in enumerate(nums):
             if i > 0 and nums[i] == nums[i-1]: continue
+
             L, R = i+1, N-1
             while L < R:
                 total = n + nums[L] + nums[R]
                 local_diff = abs(total-target)
-                if local_diff < diff:
-                    diff = local_diff
+                if local_diff < min_diff:
+                    min_diff = local_diff
                     ans = total
-                if total > target:
+
+                if ans == target: return ans
+                elif total > target:
                     R -= 1
                 else:
                     L += 1
