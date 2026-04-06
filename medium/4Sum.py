@@ -3,15 +3,22 @@ class Solution:
         nums.sort()
         N = len(nums)
         ans = []
-        for i, n in enumerate(nums):
+
+        for i in range(N-3):
             if i > 0 and nums[i-1] == nums[i]: continue
-            for j in range(i+1, N):
+            if nums[0] + nums[1] + nums[2] + nums[3] > target: break
+            if nums[i] + nums[-3] + nums[-2] + nums[-1] < target: continue
+
+            for j in range(i+1, N-2):
                 if j > i+1 and nums[j-1] == nums[j]: continue
+                if nums[i] + nums[j] + nums[j+1] + nums[j+2] > target: break
+                if nums[i] + nums[j] + nums[-1] + nums[-2] < target: continue
+
                 L, R = j+1, N-1
                 while L < R:
-                    total = n + nums[L] + nums[R] + nums[j]
+                    total = nums[i] + nums[L] + nums[R] + nums[j]
                     if total == target:
-                        ans.append([n, nums[L], nums[R], nums[j]])
+                        ans.append([nums[i], nums[L], nums[R], nums[j]])
                         L += 1
                         R -= 1
                         while L < R and nums[L-1] == nums[L]:
